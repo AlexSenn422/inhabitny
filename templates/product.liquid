@@ -1,0 +1,354 @@
+{% include 'sca_freegift_price' with product %}
+{% assign product_background_color = blank %}
+{% for tag in product.tags %}
+  {% if tag contains 'product-background' %}
+    {% assign product_background_color = tag | remove: 'product-background-' %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<div id="product_section_top" {% unless product_background_color == blank %}style="background-color: #{{ product_background_color }};"{% endunless %}>
+  <div class="product_shell">
+    <div id="product_information">
+      <div class="inner_shell">
+        <div class="desktop-content">
+            {% include 'breadcrumbs' %}
+        </div>
+
+        <h1><div style="position:relative;"> {{ product.title }} <div name="secomapp-fg-image-{{ product.id }}" style="display: none;"> {{ "icon-freegift.png" | asset_url | img_tag: "", "sca-fg-img-label" }} </div> </div></h1>
+
+        <div class="pricing">
+          <span id="product_price_old">{% if sca_price_min < sca_compare_at_price_min %}{{ sca_compare_at_price_min | money_with_currency }}{% endif %}</span>
+          <span id="product_price">{{ sca_price | money_with_currency }}</span>
+
+          {% if product.tags contains 'final-sale' %}
+            <span class="product_sale_label">Final Sale</span>
+          {% endif %}
+        </div>
+
+        <div class="full-product__image-col mobile-content">
+
+    <!-- MAIN SLIDER -->
+      <div class="js-slick-slider" data-thumbs="1" >
+          {% comment %}
+              setting the lazyload paramater to true will force all images to lazyload.
+              By default, images after {{lazy_load_after}} will lazy load.
+          {% endcomment %}
+          {% assign lazy_load_after = 1 %}
+
+          {% if lazyload %}
+              {% assign lazy_load_after = 0 %}
+          {% endif %}
+
+
+          {% comment %}
+              Define the default product image size.
+          {% endcomment %}
+          {% unless image_size %}
+              {% assign image_size = "2560x" %}
+          {% endunless %}
+
+
+          {% comment %}
+              Loop thru images
+          {% endcomment %}
+          {% for image in product.images %}
+
+              {% comment %}
+                  Add alt text to the images.
+              {% endcomment %}
+              {% assign alt = image.alt %}
+              {% assign alt_handle = alt | downcase %}
+
+              {% unless alt_handle contains "swatch" %}
+
+                  {% comment %}
+                      Set color in data-color attribute to filter slides by colors when needed. Also, add a class to the selected variant's color to initialize the filter upon page visit. Functionality in snippets/product-option-select.liquid
+                  {% endcomment %}
+                  <div data-color="{{ alt }}" class="js-slick-slide-filter" {% if zoom %}data-toggle='{"togglesClass": "product__zoom-gallery--toggled", "allowEscToggle": true}'{% endif %}>
+
+                        <img src="{{ image.src | product_img_url: '600x' }}"  alt="{{ image.alt }}" >
+                  </div>
+
+              {% endunless %}
+
+          {% endfor %}
+        </div>
+
+    <!-- MAIN SLIDER END -->
+
+        </div>
+
+        <div id="product_purchase">
+          <div class="inner_shell">
+            <form action="/cart/add" method="post" class="form add_to_cart">
+              <div class="shell">
+                <div class="options_wrapper">
+                  <select id="product-select" name="id">
+                    {% for variant in product.variants %}
+                    {% unless variant.metafields.secomapp.freegifts %}
+                    {% unless variant.title contains '(Freegifts)' %}
+                      <option value="{{ variant.id }}">
+                        {{ variant.title }} - {{ variant.price | money }}
+                      </option>
+                    {%endunless%}
+                    {%endunless%}
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="row">
+                  <div class="buy">
+                    <button type="submit" class="cart btn-form" data-lang-available="{{ 'products.product.add_to_cart' | t }}" data-lang-unavailable="{{ 'products.product.unavailable' | t }}" data-lang-sold-out="{{ 'products.product.sold_out' | t }}" id="original_buy">{{ 'products.product.add_to_cart' | t }}</button>
+                    <span class="cart_message"></span>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="sca-fg-cat-list" style="display: none;" name="secomapp-fg-data-{{ product.id }}"> </div>
+
+
+
+            {% comment %}<div class="sca-fg-cat-list" style="display: none;" name="secomapp-fg-data-{{ product.id }}"> </div>{% endcomment %}
+          </div>
+        </div>
+
+        <div id="product_description">
+          <div class="rte">
+            {{ product.description }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="full-product__image-col desktop-content">
+
+
+<!-- THUMBS -->
+      <div class="product__thumbs  thumbs  js-slick-slider-thumbs " data-thumbs="1">
+
+          {% for image in product.images %}
+
+              {% comment %}
+                  Add alt text to the images.
+              {% endcomment %}
+              {%- if image.attached_to_variant? -%}
+                {% for variant in image.variants %}
+                   {% assign alt = variant.title | split: ' / ' | first   %}
+                {% endfor %}
+                {%- else -%}
+                  {% assign alt = image.alt %}
+              {%- endif -%}
+
+
+              {% assign altHandle = alt | handle %}
+
+              {% unless altHandle == "swatch" %}
+
+                  <img
+                  src="{{ image.src | img_url: '100x', format: 'pjpg' }}"
+                  alt="{{ alt }}"
+                  data-color="{{ alt }}"
+                  class='product__thumb  thumbs__thumb {% if forloop.first %}thumbs__thumb--active{% endif %}'
+                  data-index="{{ forloop.index0 }}">
+
+              {% endunless %}
+
+          {% endfor %}
+
+      </div>
+<!-- THUMBS END -->
+
+
+<!-- MAIN SLIDER -->
+  <div class="js-slick-slider" data-thumbs="1" >
+      {% comment %}
+          setting the lazyload paramater to true will force all images to lazyload.
+          By default, images after {{lazy_load_after}} will lazy load.
+      {% endcomment %}
+      {% assign lazy_load_after = 1 %}
+
+      {% if lazyload %}
+          {% assign lazy_load_after = 0 %}
+      {% endif %}
+
+
+      {% comment %}
+          Define the default product image size.
+      {% endcomment %}
+      {% unless image_size %}
+          {% assign image_size = "2560x" %}
+      {% endunless %}
+
+
+      {% comment %}
+          Loop thru images
+      {% endcomment %}
+      {% for image in product.images %}
+
+          {% comment %}
+              Add alt text to the images.
+          {% endcomment %}
+          {%- if image.attached_to_variant? -%}
+            {% for variant in image.variants %}
+               {% assign alt = variant.title | split: ' / ' | first   %}
+            {% endfor %}
+            {%- else -%}
+              {% assign alt = image.alt %}
+          {%- endif -%}
+
+          {% assign alt_handle = alt | downcase %}
+
+          {% unless alt_handle contains "swatch" %}
+
+              {% comment %}
+                  Set color in data-color attribute to filter slides by colors when needed. Also, add a class to the selected variant's color to initialize the filter upon page visit. Functionality in snippets/product-option-select.liquid
+              {% endcomment %}
+              <div data-color="{{ alt }}" class="js-slick-slide-filter" {% if zoom %}data-toggle='{"togglesClass": "product__zoom-gallery--toggled", "allowEscToggle": true}'{% endif %}>
+
+                    <img src="{{ image.src | product_img_url: '1200x' }}" class="image-zoom " alt="{{ image.alt }}" data-zoom="{{ image.src | img_url: '2560x', scale: 3 }}">
+              </div>
+
+          {% endunless %}
+
+      {% endfor %}
+    </div>
+
+<!-- MAIN SLIDER END -->
+
+    </div>
+
+
+{% include "product-related" %}
+
+
+  </div>
+</div>
+
+{%- comment %}
+{% unless product.type == 'Gift Card' %}
+  <div id="product_section_middle">
+    <div class="product_shell">
+      <div id="product_images">
+        <ul>
+          {% for image in product.images limit: 3 %}
+            {% unless forloop.first %}
+              <li
+                style="background-image:url({{ image.src | product_img_url: 'grande' }});"
+                data-url="{{ image.src | product_img_url: '1024x1024' }}"
+               >
+                <img src="{{ image.src | product_img_url: 'grande' }}" alt="{{ image.alt }}">
+              </li>
+            {% endunless %}
+          {% endfor %}
+        </ul>
+      </div>
+      <div id="product_content">
+        <div id="content_shell">
+          <span class="label">Fit</span>
+          <p>{{ product.metafields.littlerocket['Fit'] | default: "Not available" }}</p>
+
+          <span class="label">Care</span>
+          <p>{{ product.metafields.littlerocket['Care'] | default: "Not available" }}</p>
+
+          <span class="label">Shipping &amp; Returns</span>
+          <p>{{ 'product_page.shipping_and_returns' | t }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endunless %}
+{% endcomment -%}
+
+
+{% assign material_type = blank %}
+{% for tag in product.tags %}
+  {% if tag contains 'material-type' %}
+    {% assign material_type = tag | remove: 'material-type-' %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% unless material_type == blank %}
+  {% assign material_type_post = blank %}
+  {% for article in blogs.material-types.articles %}
+    {% assign article_handle = article.title | handle %}
+    {% if article_handle == material_type %}
+      {% assign material_type_post = article %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  {% unless material_type_post == blank %}
+    {% assign material_background_color = blank %}
+    {% for tag in material_type_post.tags %}
+      {% if tag contains 'material-background' %}
+        {% assign material_background_color = tag | remove: 'material-background-' %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    <div id="product_section_bottom" style="background-image: url({{ material_type_post | img_url: 'master' }});{% unless material_background_color == blank %}background-color: #{{ material_background_color }};{% endunless %}" class="block">
+      <div class="block_content right">
+        <div class="block_content_inner">
+          <div class="inner">
+            {{ material_type_post.content }}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endunless %}
+{% else %}
+  <style>
+    #site_footer {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  </style>
+{% endunless %}
+
+{% include 'option_selector_template' %}
+{% include 'microdata-product' %}
+
+<script>
+  {% include 'sca.freegift.variant_fix' %}
+  var PRODUCT_JSON = sca_product_info;
+
+  {% assign color_option_index = 0 %}
+  {% for option in product.options %}
+    {% assign lower_option = option | downcase %}
+    {% if lower_option == 'color' %}
+      {% assign color_option_index = forloop.index0 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  {% assign used_colors = blank %}
+  var PRODUCT_VARIANT_SWATCHES = {
+    {% for variant in product.variants %}
+    {% unless variant.metafields.secomapp.freegifts %}
+    {% unless variant.title contains '(Freegifts)' %}
+
+      {% assign color = variant.options[color_option_index] %}
+      {% capture color_string %}{{ color }},{% endcapture %}
+
+      {% if variant.metafields.littlerocket.swatch == blank or used_colors contains color_string %}
+        {% continue %}
+      {% endif %}
+
+      {% capture used_colors %}{{ used_colors }}{{ color_string }}{% endcapture %}
+
+      '{{ color }}': '{{ variant.metafields.littlerocket.swatch }}',
+
+    {%endunless%}
+    {%endunless%}
+    {% endfor %}
+  };
+
+  var PRODUCT_IMAGES_ARRAY = [
+    {% for image in product.images %}
+      {
+        src: {{ image | json}},
+        alt: '{{ image.alt }}'
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+</script>

@@ -1,0 +1,62 @@
+<div>
+  <a href="/account/logout" class="btn logout">logout</a>
+  <h1 class="title">Account Details</h1>
+
+  {% if customer.orders.size > 0 %}
+    <table id="order_list" class="responsive">
+      <thead>
+        <tr class="account_lined_header">
+          <th>Order</th>
+          <th>Date</th>
+          <th>Payment</th>
+          <th>Fullfillment</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in customer.orders %}
+          <tr>
+            <td data-label="Order">{{ order.name | link_to: order.customer_url }}</td>
+            <td data-label="Date"><span class="note">{{ order.created_at | date: "%b %d, %Y" }}</span></td>
+            <td data-label="Payment"><span class="status_{{ order.financial_status }}">{{ order.financial_status | capitalize }}</span></td>
+            <td data-label="Fullfillment"><span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status | capitalize }}</span></td>
+            <td data-label="Total"><span class="total money">{{ order.total_price | money }}</span></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You haven't placed any orders yet.</p>
+  {% endif %}
+
+  <div id="account_address">
+    <h2 class="subtitle">Addresses</h2>
+    {% if customer.default_address != nil %}
+      <div class="address">
+        <div class="address_header">{{ customer.name }}</div>
+        <p>
+          {{ customer.default_address.address1 }}<br>
+          {% unless customer.default_address.address2 == blank %}
+            {{ customer.default_address.address2 }}<br>
+          {% endunless %}
+          {% unless customer.default_address.province == blank %}
+            {{ customer.default_address.province }}<br>
+          {% endunless %}
+          {% unless customer.default_address.zip == blank %}
+            {{ customer.default_address.zip | upcase }}<br>
+          {% endunless %}
+          {% unless customer.default_address.country == blank %}
+            {{ customer.default_address.country }}<br>
+          {% endunless %}
+          {% unless customer.default_address.phone == blank %}
+            {{ customer.default_address.phone }}
+          {% endunless %}
+        </p>
+      </div>
+    {% else %}
+      <p>No addresses on file.</p>
+    {% endif %}
+
+    <a href="/account/addresses" class="btn addresses">View Addresses</a>
+  </div>
+</div>

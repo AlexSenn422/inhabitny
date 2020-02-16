@@ -1,0 +1,26 @@
+<div class="section_newsletter">
+  <div class="content">
+    <a class="btn close"><img src="{{ 'icon_close.svg' | asset_url }}" alt="Close"></a>
+
+    <div id="content_pre">
+      <div>
+        <h1 class="title">{{ 'popup.newsletter.newsletter_header' | t }}</h1>
+        <p>{{ 'popup.newsletter.newsletter_text' | t }}</p>
+        <form class="form email-signup" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+          <span class="shell">
+            <input type="email" name="email" id="k_id_email" class="value">
+            <input type="hidden" name="g" value="sPJQSi">
+            <button type="submit" class="caret"><img src="{{ 'icon_arrow.svg' | asset_url }}"></button>
+          </span>
+        </form>
+      </div>
+    </div>
+
+    <div id="content_post">
+      <div>
+        <h1 class="title">THANK YOU</h1>
+        <p>{{ 'popup.newsletter.newsletter_text_thanks' | t }}</p>
+      </div>
+    </div>
+  </div>
+</div>

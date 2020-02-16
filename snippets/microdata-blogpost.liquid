@@ -1,0 +1,30 @@
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "BlogPosting",
+    "datePublished": "{{ article.created_at }}",
+    "dateModified": "{{ article.published_at }}",
+    "commentCount": {{ article.comments_count | json }},
+    "headline": {{ article.title | json }},
+    "articleBody": {{ article.content | strip_html | json }},
+    "url": {{ article.url | json }},
+    {% if article.image %}
+      "image": {
+        "@type": "ImageObject",
+        "url": "http:{{ article.image | img_url: '1000x500', crop: 'center' }}",
+        "width": 1000,
+        "height": 500
+      },
+    {% endif %}
+    "author": {
+      "@type": "Person",
+      "name": "INHABIT",
+      "email": "customercare@inhabitny.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }},
+      "logo": "http:{{ 'logo.svg' | asset_url }}"
+    }
+  }
+</script>

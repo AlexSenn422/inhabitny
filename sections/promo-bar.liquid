@@ -1,0 +1,51 @@
+{% if section.settings.enabled %}
+  <div class="promo" data-transition-speed="{{ section.settings.transition_speed }}" data-delay-time="{{ section.settings.delay_time }}">
+    <a href="#" class="btn close"><img src="{{ 'icon_close_white.svg' | asset_url }}" alt="Close"></a>
+    <div class="promo-messages">
+      {% for block in section.blocks %}
+        <div class="copy" {{ block.shopify_attributes }}>
+          {{ block.settings.content }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Promo Bar",
+    "settings": [
+      {
+        "id": "enabled",
+        "type": "checkbox",
+        "label": "Enabled?",
+        "default": true
+      },
+      {
+        "id": "transition_speed",
+        "type": "text",
+        "label": "Transition Speed",
+        "info": "Animation speed in milliseconds for fading"
+      },
+      {
+        "id": "delay_time",
+        "type": "text",
+        "label": "Delay Time",
+        "info": "Length in seconds to show each text"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "content",
+        "name": "Promo Text",
+        "settings": [
+          {
+            "id": "content",
+            "type": "richtext",
+            "label": "Content"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

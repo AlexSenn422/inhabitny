@@ -1,0 +1,63 @@
+{% raw %}
+
+  <script id="cart_template" type="text/x-handlebars-template">
+
+    <div class="cart_header">
+
+      <a href="/checkout" class="btn-form">Checkout</a>
+
+      <div class="cart_subtotal">
+        <span class="label">Subtotal:</span>
+        <span class="amount">{{formatMoney total_price}}</span>
+        <span class="shipping">You are <span class="label"></span> away from free shipping</span>
+      </div>
+
+    </div>
+
+    <div class="cart_body">
+
+      <div class="cart_body_scroller">
+
+        <div class="cart_items">
+          {{#each items}}
+            <div class="item" id="item_{{id}}">
+              <div class="image">
+                <img src="{{image}}" alt="{{title}}">
+              </div>
+
+              <div class="info">
+                <div class="header">
+                  {{#if is_free_gift}}
+                    &nbsp;
+                  {{else}}
+                    <a href="#" class="remove_item" data-variant="{{id}}">&nbsp;</a>
+                  {{/if}}
+
+                  <h5 class="title">{{title}}</h5>
+                </div>
+
+                <div class="body">
+                  {{#if is_free_gift}}
+                    &nbsp;
+                  {{else}}
+                    <span class="qty">
+                      <span class="qty_down">-</span>
+                      <input type="number" value="{{quantity}}" data-variant="{{id}}" min="1">
+                      <span class="qty_up">+</span>
+                    </span>
+                    <span class="price">{{formatMoney line_price}}</span>
+                  {{/if}}
+                </div>
+
+              </div>
+            </div>
+          {{/each}}
+        </div>
+
+      </div>
+
+    </div>
+
+  </script>
+
+{% endraw %}

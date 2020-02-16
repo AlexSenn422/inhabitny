@@ -1,0 +1,21 @@
+{% include 'microdata-blogpost' %}
+<article class="blog-article">
+  <header>
+    <h1><a href="{{ article.url }}">{{ article.title }}</a></h1>
+    <time class="blog-date" pubdate="{{ article.published_at }}">{{ article.published_at | date: '%B %d, %Y' }}</time>
+  </header>
+
+  {% if article.image %}
+    <div class="blog-image">
+      {{ article | img_url: 'master', crop: bottom | img_tag }}
+    </div>
+  {% endif %}
+
+  <div class="blog-content">
+    {{ article.excerpt_or_content }}
+  </div>
+
+  <footer>
+    <a href="{{ article.url }}" class="blog-read-more">read more</a>
+  </footer>
+</article>

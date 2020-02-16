@@ -1,0 +1,8 @@
+{% comment %}Get the size from tag if its available{% endcomment %}
+{% assign size_from_tag = nil %}
+{% for tag in current_tags %}
+  {% if tag contains 'size-' %}
+    {% assign size_from_tag = tag | remove: 'size-' | upcase %}
+    {% break %}
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,39 @@
+<h2 class="title">New Customers</h2>
+
+<p>Create an account for an easier, quicker and more personalized shopping experience.</p>
+
+{% form "create_customer" %}
+  <div class="form_errors">
+    {{ form.errors | default_errors }}
+  </div>
+
+  <div class="form-row">
+    <label>First Name</label>
+    <div class="shell">
+    <input class="value" type="text" name="customer[first_name]">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label>Last Name</label>
+    <div class="shell">
+    <input class="value" type="text" name="customer[last_name]">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label>Email</label>
+    <div class="shell">
+    <input class="value" type="email" name="customer[email]">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label>Password (min. 5 characters)</label>
+    <div class="shell">
+    <input class="value" type="password" name="customer[password]">
+    </div>
+  </div>
+
+  <button class="btn-form">Register</button>
+{% endform %}

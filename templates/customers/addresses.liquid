@@ -1,0 +1,43 @@
+<div id="account_address" class="address_forms">
+  <a href="/account/logout" class="btn logout">logout</a>
+  <h1 class="title">
+    <span class="shell_list_title">Addresses</span>
+    <span class="shell_add_address_title">Add a New Address</span>
+    <span class="shell_edit_address_title">Edit an Address</span>
+  </h1>
+
+  <div class="inner_shell shell_list">
+    {% for address in customer.addresses %}
+      <div class="address">
+        <div class="address_header">Address {{ forloop.index }} {% if address == customer.default_address %}<span>, Default</span>{% endif %}</div>
+        <p>
+          {{ address.first_name }} {{address.last_name }}<br>
+          {% if address.company %}{{ address.company }}<br>{% endif %}
+          {{ address.street }}<br>
+          {{ address.city }} {% if address.state_code %}, {{ address.state_code }}{% endif %}<br>
+          {{ address.country }} {{ address.zip }}<br>
+          {{ address.phone }}
+        </p>
+        <div class="editor">
+          <a href="#" class="link_edit_address" data-id="{{ address.id }}">Edit</a>
+          <a href="#" class="link_delete_address" data-id="{{ address.id }}">Delete</a>
+        </div>
+      </div>
+    {% else %}
+      <p>No addresses on file.</p>
+    {% endfor %}
+  </div>
+
+  <div class="inner_shell shell_add_address">
+    {% include 'form_address' %}
+  </div>
+
+  {% for address in customer.addresses %}
+    <div class="inner_shell shell_edit_address" id="edit_address_{{ address.id }}">
+      {% include 'form_address' %}
+    </div>
+  {% endfor %}
+
+  <a href="#" class="btn addresses add_address">Add an Address</a>
+  <a href="#" class="btn addresses cancel_address">X Cancel</a>
+</div>

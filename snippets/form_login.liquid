@@ -1,0 +1,47 @@
+<div id="login_form">
+  <h2 class="title">Login</h2>
+
+  {% form 'customer_login' %}
+    <div class="form_errors">
+      {{ form.errors | default_errors }}
+    </div>
+
+    <div class="form-row">
+      <label>Email</label>
+      <div class="shell">
+        <input class="value" type="email" name="customer[email]">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Password</label>
+      <div class="shell">
+      <input class="value" type="password" name="customer[password]">
+      </div>
+    </div>
+
+    <button class="btn-form">Sign In</button>
+    <a href="#" id="forgot_password">Forgot Password?</a>
+  {% endform %}
+</div>
+
+<div id="forgot_form">
+  <h2 class="title">Forgot Password</h2>
+  <p>We will send you an email to reset your password.</p>
+
+  {% form 'recover_customer_password' %}
+    <div class="form_errors">
+      {{ form.errors | default_errors }}
+    </div>
+
+    <div class="form-row">
+      <label>Email</label>
+      <div class="shell">
+      <input class="value" type="email" name="email">
+      </div>
+    </div>
+
+    <button class="btn-form">Send Password</button>
+    <a href="#" id="forgot_password_cancel">Cancel</a>
+  {% endform %}
+</div>

@@ -1,0 +1,9 @@
+<aside class="sidebar">
+  <h4>Categories</h4>
+
+  <ul>
+    {% for tag in blog.all_tags %}
+      <li><a href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a></li>
+    {% endfor %}
+  </ul>
+</aside>

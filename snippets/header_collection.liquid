@@ -1,0 +1,81 @@
+<nav id="collection_nav">
+  <ul>
+    {% for link in linklists.collection-menu.links %}
+      <li>
+        <a href="{{ link.url }}">
+          <span class="type">{{ link.title }}</span>
+        </a>
+      </li>
+    {% endfor %}
+    <li class="filter">
+      <a href="#">
+        <span class="type">
+          Styles
+          <img src="{{ 'icon_dropdown-black.svg' | asset_url }}" alt="" />
+        </span>
+      </a>
+      <div class="filter_dropdown">
+        <div class="dropdown_wrap">
+          <span class="type style">Styles</span>
+          <ul>
+            {% for link in linklists.collection-styles-dropdown.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </li>
+    <li class="filter">
+      <a href="#">
+        <span class="type">
+          Materials
+          <img src="{{ 'icon_dropdown-black.svg' | asset_url }}" alt="" />
+        </span>
+      </a>
+      <div class="filter_dropdown">
+        <div class="dropdown_wrap">
+          <span class="type material">Material</span>
+          <ul>
+            {% for link in linklists.collection-material-dropdown.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </li>
+
+    {% if template == 'collection' %}
+      {% include 'size_from_tag' %}
+
+      <li class="filter tagged_filter">
+        <a href="#">
+          <span class="type">
+            SIZES{% if size_from_tag %} ({{ size_from_tag }}){% endif %}
+            <img src="{{ 'icon_dropdown-black.svg' | asset_url }}">
+          </span>
+        </a>
+        <div class="filter_dropdown">
+          <div class="dropdown_wrap">
+            <span class="type size">Size</span>
+            <ul class="sizes">
+              {% assign size_tags = settings.size_filter_tags | split: ',' %}
+              {% for tag in size_tags %}
+                {% if collection.all_tags contains tag %}
+                  {% if current_tags contains tag %}
+                    <li class="chosen">{{ tag | remove: 'size-' | replace: '-', ' ' | upcase | link_to_remove_tag: tag }}</li>
+                  {% else %}
+                    <li>{{ tag | remove: 'size-' | replace: '-', ' ' | upcase | link_to_tag: tag }}</li>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="dropdown_control">
+            <span class="clear">Clear</span></a>
+            <span>Close</span>
+          </div>
+        </div>
+      </li>
+    {% endif %}
+  </ul>
+</nav>

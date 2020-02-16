@@ -1,0 +1,28 @@
+{% comment %}Depends on sca-price-fix snippet{% endcomment %}
+{% include 'sca-product' %}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "image": "http:{{ product.featured_image | img_url: '1000x' }}",
+    "description": {{ product.description | strip_html | json }},
+    "sku": {{ product.variants.first.sku | json }},
+    "url": "http://{{ shop.domain }}/products/{{ product.handle }}",
+    "brand": {
+      "@type": "Thing",
+      "name": {{ product.vendor | json }}
+    },
+    "offers": {
+      "@type": "Offer",
+      "availability": "http://schema.org/{% if product.available %}In{% else %}OutOf{% endif %}Stock",
+      "priceSpecification": {
+        "@type": "PriceSpecification",
+        "priceCurrency": {{ shop.currency | json }},
+        "price": "{{ sca_price | money_without_currency | strip_html | replace: ',', '' }}",
+        "minPrice": "{{ sca_price_min | money_without_currency | strip_html | replace: ',', '' }}",
+        "maxPrice": "{{ sca_price_max | money_without_currency | strip_html | replace: ',', '' }}"
+      }
+    }
+  }
+</script>

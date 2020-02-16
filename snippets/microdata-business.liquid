@@ -1,0 +1,40 @@
+<script type="application/ld+json">
+	{
+  	"@context": "http://schema.org",
+  	"@type": "Store",
+    "logo": "http:{{ 'logo.svg' | asset_url }}",
+    "description": "{{ shop.description }}",
+  	"name": {{ shop.name | json }},
+    "url": "http://{{ shop.domain }}",
+  	"telephone": "",
+    "image": {
+      "@type": "ImageObject",
+      "url": "http:{{ 'logo.svg' | asset_url }}"
+    },
+  	{%- comment -%}
+    "openingHours": [
+      "Mo-Fr 09:00-18:00",
+      "Sa 11:00-16:00"
+    ],
+    {%- endcomment -%}
+  	"address": {
+      "@type": "PostalAddress",
+      "addressLocality": "{{ shop.address.city }}",
+      "addressRegion": "{{ shop.address.province_code }}",
+      "postalCode": "{{ shop.address.zip }}",
+      "streetAddress": "{{ shop.address.street }}"
+  	},
+    {%- comment -%}
+  	"geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "",
+      "longitude": ""
+ 		},
+    {%- endcomment -%}
+  	"sameAs" : [
+      "{{ settings.social_twitter_link }}",
+      "{{ settings.social_facebook_link }}",
+      "{{ settings.social_instagram_link }}"
+    ]
+	}
+</script>

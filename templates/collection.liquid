@@ -1,0 +1,102 @@
+{% paginate collection.products by 30 %}
+  <div class="thumb_product collection_cta">
+    <div class="cta_wrap">
+      <div class="cta_wrap_inner">
+        <div class="cta_header">
+          <h2 class="cta_title">{{ collection.title }}</h2>
+          <div class="cta_subtitle">{{ collection.description }}</div>
+        </div>
+
+        {% if collection.image %}
+        <div class="cta_footer" style="background-image:url({{ collection.image.src | collection_img_url: 'large' }});">
+            <img src="{{ collection.image.src | collection_img_url: 'large' }}" alt="{{ collection.title }}">
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% include 'size_from_tag' %}
+
+  {% assign product_count = 0 %}
+  {% for product in collection.products %}
+    {% assign size_found = false %}
+    {% if size_from_tag %}
+      {% comment %}Find if the size is available for this product{% endcomment %}
+      {% for variant in product.variants %}
+        {% unless variant.metafields.secomapp.freegifts %}
+        {% unless variant.title contains '(Freegifts)' %}
+
+        {% if variant.metafields.secomapp.freegifts %}
+          {% comment %}Free Gifts App... skip{% endcomment %}
+          {% continue %}
+        {% endif %}
+
+        {% if variant.option2 == size_from_tag and variant.available %}
+          {% comment %}We found the size, and its available{% endcomment %}
+          {% assign size_found = true %}
+          {% break %}
+        {% endif %}
+
+        {%endunless%}
+        {%endunless%}
+      {% endfor %}
+
+      {% if size_found == false %}
+        {% comment %}No size found, skip this product{% endcomment %}
+        {% continue %}
+      {% endif %}
+    {% endif %}
+
+    {% if product.tags contains 'expand' %}
+      {% comment %}Split product up by color variant{% endcomment %}
+      {% assign color_index = nil %}
+      {% if product.options[0] == 'Color' %}
+        {% capture color_index %}option1{% endcapture %}
+      {% elsif product.options[1] == 'Color' %}
+        {% capture color_index %}option2{% endcapture %}
+      {% elsif product.options[2] == 'Color' %}
+        {% capture color_index %}option3{% endcapture %}
+      {% endif %}
+
+      {% assign colors = product.variants | map: color_index | uniq %}
+      {% assign used_colors = blank %}
+
+      {% for color in colors %}
+        {% for variant in product.variants %}
+        {% unless variant.metafields.secomapp.freegifts %}
+        {% unless variant.title contains '(Freegifts)' %}
+
+          {% if used_colors contains color %}{% break %}{% endif %}
+
+          {% if variant[color_index] == color %}
+            {% include 'thumb_product', variant: variant, color_index: color_index %}
+            {% assign used_colors = used_colors | append: color %}
+          {% endif %}
+
+        {%endunless%}
+        {%endunless%}
+        {% endfor %}
+      {% endfor %}
+    {% else %}
+      {% comment %}Non expanded product{% endcomment %}
+      {% include 'thumb_product' %}
+    {% endif %}
+    {% assign product_count = product_count | plus: 1 %}
+  {% endfor %}
+
+  {% if (collection.products.size == 0 or product_count == 0) and current_tags.size > 0 %}
+    <p>Sorry, there are no products matching your filters. Please try again.</p>
+  {% endif %}
+
+  {% if collection.products.size == 0 and current_tags.size == 0 %}
+    <p>Sorry, there are currently no products available for purchase.</p>
+  {% endif %}
+
+  {% if paginate.pages > 1 %}
+    <div class="pagination">
+      {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+    </div>
+  {% endif %}
+
+{% endpaginate %}

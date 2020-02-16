@@ -1,0 +1,75 @@
+{% include 'sca_freegift_price' with product %}
+<div class="thumb_product {{ classes }}">
+  <div name="secomapp-fg-image-{{ product.id }}" style="display: none;"> {{ "icon-freegift.png" | asset_url | img_tag: "", "sca-fg-img-collect" }} </div>
+  <div class="sca-fg-cat-list" style="display:none;" name="secomapp-fg-data-{{ product.id }}" prod-show='list'> </div>
+  {% include 'microdata-product' %}
+
+  <a href="{{ product.url | within: collection }}{% if variant %}?variant={{ variant.id }}{% endif %}" class="collection-image-active">
+    {% if variant %}
+      <span class="img hidden-image active" style="background-image:url({{ variant.image.src | product_img_url: 'large' }});">
+        <img src="{{ variant.image.src | product_img_url: 'large' }}" class="image-{{ forloop.index }}" alt="{{ product.title | escape }}">
+      </span>
+    {% else %}
+      {% for image in product.images limit: 3 %}
+        <span class="img hidden-image {% if forloop.first == true %}active{% endif %}" style="background-image:url({{ image.src | product_img_url: 'large' }});">
+          <img src="{{ image.src | product_img_url: 'large' }}" class="image-{{ forloop.index }}" alt="{{ product.title | escape }}">
+        </span>
+      {% endfor %}
+    {% endif %}
+  </a>
+
+  <div class="details">
+    <div class="flex-row">
+      <div class="title">
+        {{ product.title }}{% if variant and color_index %} <span class="color">({{ variant[color_index] }})</span>{% endif %}
+      </div>
+
+      <div class="price">
+        {% if sca_price_min < sca_compare_at_price_min %}
+          <span class="price_old">{{ sca_compare_at_price_min | money_without_trailing_zeros }}</span>
+        {% endif %}
+        <span>{{ sca_price | money_without_trailing_zeros }}</span>
+        {% if product.tags contains 'final-sale' %}
+          <span class="price_final">Final Sale</span>
+        {% endif %}
+      </div>
+    </div>
+
+  {% assign i = 0 %}
+      {% for option in product.options_with_values %}
+        {%- if option.name == 'Color' -%}
+            <div class="color-swatches-wrap">
+              <div class="color-swatches-container">
+                {% for value in option.values %}
+                  {% assign i = i | plus: 1 %}
+                  {% assign image_name = value | handle | prepend: "swatch-" | append: '.png'  %}
+                    <div  class="color-circle"
+                          data-name="{{ value }}"
+                          data-color="{{ value }}"
+                          title="{{ value }}"
+                          style="background-image: url({{- image_name | file_img_url: '50x' -}});background-size: contain;"
+                          >
+                    </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+        {%- endfor -%}
+
+              {% if i > 1 %}
+                <div class="prod-colors__count ">
+                  <p>more colors available</p>
+                </div>
+              {% endif %}
+            </div>
+
+
+
+    {% if product.tags contains 'new-arrival' %}
+      <span class="new">New Arrival</span>
+    {% endif %}
+
+    {% if product.tags contains 'just-added' %}
+      <span class="new">Just Added!</span>
+    {% endif %}
+  </div>
+</div>

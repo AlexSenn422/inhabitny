@@ -1,0 +1,19 @@
+<div class="instagram">
+    <p class="center-p" >{{ section.settings.title }}</p>
+    {% comment %} <p class="center-p" >show us how you wear INHABIT with hashtag #myinh</p> {% endcomment %}
+  <div id="insta-feed"></div>
+</div>
+
+
+{% schema %}
+{
+    "name": "Homepage Instagram",
+    "settings": [
+      {
+        "id": "title",
+        "type": "text",
+        "label": "Header Title"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,100 @@
+{% assign address_type = customer.new_address %}
+{% if address %}
+  {% assign address_type = address %}
+{% endif %}
+
+<div class="create_address" class="form">
+  {% form 'customer_address', address_type %}
+    <div class="form-row two">
+      <div class="form-column">
+        <label>First Name</label>
+        <div class="shell">
+        <input class="value" type="text" name="address[first_name]" value="{{ form.first_name }}">
+        </div>
+      </div>
+
+      <div class="form-column">
+        <label>Last Name</label>
+        <div class="shell">
+        <input class="value" type="text" name="address[last_name]" value="{{ form.last_name }}">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row two">
+      <div class="form-column">
+        <label>Company</label>
+        <div class="shell">
+        <input class="value" type="text" name="address[company]" value="{{ form.company }}">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row two">
+      <div class="form-column">
+        <label>Address 1</label>
+        <div class="shell">
+          <input class="value" type="text" name="address[address1]" value="{{ form.address1 }}">
+        </div>
+      </div>
+
+      <div class="form-column">
+        <label>Address 2</label>
+        <div class="shell">
+          <input class="value" type="text" name="address[address2]" value="{{ form.address2 }}">
+        </div>
+      </div>
+
+      <div class="form-column">
+        <label>City</label>
+        <div class="shell">
+          <input class="value" type="text" name="address[city]" value="{{ form.city }}">
+        </div>
+      </div>
+
+      <div class="form-column">
+        <label>Country</label>
+        <div class="shell">
+          <select class="value select" id="address_country_{{ forloop.index | default: 'new' }}" name="address[country]" data-default="{{ form.country | default: 'United States' }}">{{ country_option_tags }}</select>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <label>Zip Code</label>
+        <div class="shell">
+          <input class="value" type="text" name="address[zip]" value="{{ form.zip }}">
+        </div>
+      </div>
+
+      <div id="address_province_{{ forloop.index | default: 'new' }}_container" style="display:none" class="form-column">
+        <label>State</label>
+        <div class="shell">
+          <select class="value select" id="address_province_{{ forloop.index | default: 'new' }}" name="address[province]" data-default="{{ form.province }}"></select>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <label>Phone Number</label>
+        <div class="shell">
+          <input class="value" type="text" name="address[phone]" value="{{ form.phone }}">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row two">
+      <div class="form-column">
+        <div class="shell">
+          <label class="checkbox">
+            {{ form.set_as_default_checkbox }}<span class="check"></span> <span>Set as default</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row two">
+      <div class="form-column">
+        <button class="btn-form">{% if address %}Save Address{% else %}Add Address{% endif %}</button>
+      </div>
+    </div>
+  {% endform %}
+</div>

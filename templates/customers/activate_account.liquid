@@ -1,0 +1,25 @@
+<h1>Activate Account</h1>
+
+{% form 'activate_customer_password' %}
+  <div class="form_errors">
+  	{{ form.errors | default_errors }}
+  </div>
+
+  <div class="form-row">
+    <label>Password</label>
+    <div class="shell">
+      <input type="password" name="customer[password]" class="value">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label>Confirm Password</label>
+    <div class="shell">
+      <input type="password" name="customer[password_confirmation]" class="value">
+    </div>
+  </div>
+
+  <button type="submit" class="btn-form">Activate Account</button>
+  <br>
+  <button name="decline" class="btn-form" onClick="javascript:window.location.href='{{ shop.url }}';">Decline</button>
+{% endform %}

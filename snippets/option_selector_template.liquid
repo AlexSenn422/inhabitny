@@ -1,0 +1,24 @@
+{% raw %}
+  <script id="option_selector_template" type="text/x-handlebars-template">
+    <div class="row select-{{option_name}}" data-selectbox-name="{{option_name}}">
+      <div class="flex-container">
+        <div class="label {{option_name}}_label {{#if_eq option_name 'Color'}}selected-color{{/if_eq}}">
+          {{option_name}}:&nbsp;&nbsp;<span></span>
+        </div>
+         {{#if_eq option_name 'Size'}}
+          <div id="size_chart_link">size chart</div>
+        {{/if_eq}}
+      </div>
+
+      <div class="{{option_name}} options" id={{option_id}}>
+        {{#each option_values}}
+          <span data-value="{{this}}" class="option"><span class="option-text">
+             {{this}}
+           </span>
+         </span>
+        {{/each}}
+        <span class="info {{option_name}}_info"></span>
+      </div>
+    </div>
+  </script>
+{% endraw %}

@@ -1,0 +1,28 @@
+<p class="center-p" >{{ section.settings.title }}</p>
+<div class="under-200">
+  {% for product in collections[section.settings.collection].products limit: 4  %}
+    <a href="{{ product.url }}">
+      <img src="{{ product | img_url: 'large' }}" />
+      <div name="secomapp-fg-image-{{ product.id }}" style="display: none;"> {{ "icon-freegift.png" | asset_url | img_tag: "", "sca-fg-img-collect" }} </div>
+      <div class="sca-fg-cat-list" style="display:none;" name="secomapp-fg-data-{{ product.id }}" prod-show='list'> </div>
+    </a>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+    "name": "Homepage Product Promo",
+    "settings": [
+      {
+        "id": "title",
+        "type": "text",
+        "label": "Header Title"
+      },
+      {
+        "id": "collection",
+        "type": "collection",
+        "label": "Collection"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,31 @@
+<section class="blog-container clearfix">
+	<div class="articles">
+		<div class="blog-article-full">
+      <header>
+        <h1><a href="{{ article.url }}">{{ article.title }}</a></h1>
+        <time class="blog-date" pubdate="{{ article.published_at }}">{{ article.published_at | date: '%B %d, %Y' }}</time>
+      </header>
+
+			{% if article.image %}
+				<div class="blog-image">
+					{{ article | img_url: 'master', crop: bottom | img_tag }}
+				</div>
+			{% endif %}
+			<div class="blog-content">
+				{{ article.content }}
+			</div>
+
+			<footer class="article-social">
+				<ul>
+					<li><a href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ article.url }}&media={{ article.image | img_url: 'medium' }}&description={{ article.content | strip_html | urlencode | slice: 0, 140 }}" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+					<li><a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="https://twitter.com/intent/tweet?text=Read%20%22{{ article.title | url_escape }}%22%20at%20{{ shop.name | url_escape }}!%20{{ shop.url }}{{ article.url }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+				</ul>
+			</footer>
+		</div>
+	</div>
+
+	{% include 'blog_sidebar' %}
+</section>
+
+{% include 'microdata-blogpost' %}

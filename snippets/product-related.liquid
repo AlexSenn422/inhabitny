@@ -1,0 +1,62 @@
+{% comment %}
+
+	Get Related Products
+
+{% endcomment %}
+
+{% assign related_products_limit =  3 %}
+{% assign CURRENT_PRODUCT_HANDLE = product.handle %}
+
+{% for prod_collection in product.collections %}
+        {% assign related_collection = collections[prod_collection.handle] %}
+
+        {% assign related_products = related_collection.products %}
+        {% break %}
+{% endfor %}
+
+
+
+
+{%- capture related_products_title -%}
+
+    {{- 'products.product.related_products_title_general' | t -}}
+
+{%- endcapture -%}
+
+
+<div class="related-products related-ymal visible {{related_collection.title}}">
+
+<div class="related-products-title js-related-btn selected" id="show-ymal">
+
+    <h1>{{ related_products_title }}</h1>
+</div>
+
+    <div class="related-products-grid grid desktop-content">
+
+        {% for product in related_products limit: related_products_limit %}
+        {% unless product.handle == CURRENT_PRODUCT_HANDLE %}
+
+                {% include 'thumb_product' %}
+
+        {% endunless %}
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="related-products-grid grid mobile-content">
+
+        {% for product in related_products limit: 2 %}
+        {% unless product.handle == CURRENT_PRODUCT_HANDLE %}
+
+                {% include 'thumb_product' %}
+
+        {% endunless %}
+
+        {% endfor %}
+
+    </div>
+
+
+</div>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+  <head>
+    <script type="text/javascript"> (function(a,b,c,d,e,f,g){e['ire_o']=c;e[c]=e[c]||function(){(e[c].a=e[c].a||[]).push(arguments)};f=d.createElement(b);g=d.getElementsByTagName(b)[0];f.async=1;f.src=a;g.parentNode.insertBefore(f,g);})('//d.impactradius-event.com/A2021496-1415-4a8e-9d4f-f9692c65171d1.js','script','ire',document,window); 
+</script>
+
+    <meta name="google-site-verification" content="llDubG1iKzkBmOjphEivrJY0H9K5VcpcF96ZXFU8ims" />
+    <meta charset="utf-8">
+    {% if page_description %}<meta name="description" content="{{ page_description }}">{% endif %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="google-site-verification" content="e3MJelTf1ZK4oe2cAXbso9a8bloqREdeInXefhgZFZY">
+    <meta name="msvalidate.01" content="B6D9F8A55D9533C175E34AB4FCFA00E3">
+
+    <title>
+      {% if template == 'index' %}{% if page_title contains 'Welcome' %}{{ shop.name }} &mdash; Welcome{% else %}{{ page_title }}{% endif %}{% elsif template == '404' %}Page Not Found{% elsif page_title contains shop.name %}{{ page_title }}{% else %}{{ page_title }} &mdash; {{ shop.name }}{% endif %}
+    </title>
+
+    <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png">
+
+    {% assign adjusted_canonical_url = canonical_url %}
+    {% if current_tags and template contains 'collection' %}
+      {% assign adjusted_canonical_url = shop.url | append: collection.url %}
+    {% endif %}
+    <link rel="canonical" href="{{ adjusted_canonical_url }}" />
+
+    {% include 'head_facebook' %}
+    {% include 'head_twitter' %}
+    {% include 'microdata-business' %}
+
+    {{ 'style.css' | asset_url | stylesheet_tag }}
+    {{ '//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css' | stylesheet_tag }}
+
+    {% include 'sca.freegifts' %}
+    {% include 'sca.js_overrides' %}
+    {{ content_for_header }}
+
+    <meta name="p:domain_verify" content="49539e972e3702e222efaba5eb171851"/>
+
+    <!-- BeginConsistentCartAddon -->
+    <script>{% if customer %}Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;Shopify.customer_logged_in = true ; Shopify.customer_email = "{{ customer.email }}" ;Shopify.log_uuids = true;{% else %}Shopify.customer_logged_in = false ; Shopify.customer_email = "" ;Shopify.log_uuids = true;{% endif %}</script>
+    <!-- EndConsistentCartAddon -->
+
+
+
+{% include 'weglot_hreftags' %}
+
+
+
+
+{% include 'weglot_switcher' %}
+<!-- BeginConsistentCartAddon -->  <script>  {% if customer %}  Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;  Shopify.customer_logged_in = true ;  Shopify.customer_email = "{{ customer.email }}" ;  Shopify.log_uuids = true;  {% else %}  Shopify.customer_logged_in = false ;  Shopify.customer_email = "" ;  Shopify.log_uuids = true;  {% endif %}  </script>  <!-- EndConsistentCartAddon -->
+</head>
+  <body id="{{ page_title | handle }}" class="template-{{ template | replace: '.', ' ' | handle }} {% if customer %}customer-logged-in{% endif %}">
+    {% include 'header' %}
+
+    <div class="spacer">&nbsp;</div>
+
+    <main>
+      {{ content_for_layout }}
+    </main>
+
+    {% include 'footer' %}
+    {% include 'ajax_cart' %}
+    {% if template contains 'product' %}
+      {% include 'product_size_chart' %}
+    {% endif %}
+    {% if template == 'index' or template contains 'collection' %}
+      {% include 'newsletter_signup' %}
+    {% endif %}
+
+    {% include 'layout-scripts' %}
+
+    <script type='text/javascript'>
+window.__lo_site_id = 78776;
+
+	(function() {
+		var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true;
+		wa.src = 'https://d10lpsik1i8c69.cloudfront.net/w.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);
+	  })();
+	</script>
+
+    <img src='https://rdcdn.com/rt?aid=12318&e=1&img=1' height='1' width='1' />
+   <script type="text/javascript">
+               ire('identify', {customerId: ' ', customerEmail: ' '});
+</script>
+
+  </body>
+</html>

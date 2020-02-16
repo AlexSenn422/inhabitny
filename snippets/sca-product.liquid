@@ -1,0 +1,32 @@
+{%- comment -%}SCA Free Gift Mod{%- endcomment -%}
+{%- assign sca_price = product.price -%}
+{%- assign sca_price_min = product.price_max -%}
+{%- assign sca_price_max = product.price_min -%}
+{%- assign sca_compare_at_price = product.compare_at_price -%}
+{%- assign sca_compare_at_price_min = product.compare_at_price_max -%}
+{%- assign sca_compare_at_price_max = product.compare_at_price_min -%}
+
+{%- for variant in product.variants -%}
+  {%- unless variant.metafields.secomapp.freegifts -%}
+    {%- if sca_price_min >= variant.price -%}
+      {%- assign sca_price_min = variant.price -%}
+      {%- assign sca_price = variant.price -%}
+    {%- endif -%}
+
+    {%- if sca_price_max <= variant.price -%}
+      {%- assign sca_price_max = variant.price -%}
+    {%- endif -%}
+
+    {%- if variant.compare_at_price -%}
+      {%- if sca_compare_at_price_min >= variant.compare_at_price -%}
+        {%- assign sca_compare_at_price_min = variant.compare_at_price -%}
+        {%- assign sca_compare_at_price = variant.compare_at_price -%}
+      {%- endif -%}
+
+      {%- if sca_compare_at_price_max <= variant.compare_at_price -%}
+        {%- assign sca_compare_at_price_max = variant.compare_at_price -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- comment -%}End SCA Free Gift Mod{%- endcomment -%}

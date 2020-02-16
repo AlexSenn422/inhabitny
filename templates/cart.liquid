@@ -1,0 +1,110 @@
+<script data-cfasync="false" type="text/javascript">if (typeof Shopify === "undefined") var Shopify = {}; Shopify.cart = {{ cart | json }};</script>
+<div id="sca-fg-owl-carousel">
+  <div id="freegift_cart_container" name="sca.fg.cart" class="sca-fg-cart-container" style="display: none;">
+    <div id="freegift_message" class="owl-carousel"></div>
+  </div>
+  <div id="sca-fg-slider-cart" style="display: none;">
+    <div class="sca-fg-cart-title">
+      <strong>Select your free gift (s)</strong>
+    </div>
+    <div id="sca_freegift_list" class="owl-carousel"></div>
+  </div>
+</div>
+<div id="sca_fg_cart">
+<form action="/cart" method="post" id="cartform">
+  <div id="cart_container">
+    <div class="cart_info">
+      <h1 class="title">Your Bag</h1>
+
+      <div class="description">
+        {% if cart.item_count == 0 %}
+          <p>You have nothing in your cart to checkout.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <div class="cart-container">
+        <div class="cart_body">
+          <div class="cart_body_scroller">
+            <div class="cart_items">
+              {% for item in cart.items %}
+                <div class="item" id="item_{{ item.id }}">
+                  <div class="info">
+                    <div class="header">
+                      {% unless item.variant.metafields.secomapp.freegifts %}
+                        <a href="/cart/change/{{ item.variant.id }}?quantity=0" class="item_remove_confirm remove_item" data-id="{{ item.id }}" data-variant="{{ item.id }}">&nbsp;</a>
+                      {% endunless %}
+
+                      <span class="price">
+                        {% if item.product.tags contains 'final-sale' %}
+                          <span class="final_sale">Final Sale</span>
+                        {% endif %}
+                        {% if item.variant.compare_at_price and item.variant.compare_at_price > item.variant.price %}
+                          <span class="price_old">{{ item.variant.compare_at_price | money }}</span>
+                        {% endif %}
+                        {{ item.line_price | money }}
+                      </span>
+                      <h5 class="title">{{ item.product.title }}</h5>
+                      <h6>{{ item.variant.title | remove: '/ Default Title'| remove: 'Default Title' | remove: '/ Default' | remove: 'Default' | replace: '(Freegifts)', ''  | replace: ' /', ', ' }}</h6>
+                    </div>
+
+                    <div class="body">
+                        <span class="qty">
+                          {% unless item.variant.metafields.secomapp.freegifts %}
+                          <span class="qty_down">-</span>
+                          {% endunless %}
+                          <input {% if item.variant.metafields.secomapp.freegifts %}readonly{% endif %}   type="number" size="4" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" class="item_quantity" min="1">
+                          {% unless item.variant.metafields.secomapp.freegifts %}
+                          <span class="qty_up">+</span>
+                          {% endunless %}
+                        </span>
+                    </div>
+                  </div>
+
+                  <div class="image">
+                    <img src="{{ item.product.featured_image.src | product_img_url: 'compact' }}" alt="{{ item.title | remove: '/ Default Title'| remove: 'Default Title' | remove: '/ Default' | remove: 'Default' | replace: '(Freegifts)', ''  | escape }}" />
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="cart_notes">
+          <div class="form">
+            <div class="shell">
+              <span class="labels">Additional Notes</span>
+              <textarea class="value cart_note" name="note">{{ cart.note }}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart_header">
+          <div class="cart_subtotal">
+            <span class="labels">Subtotal</span>
+            <span class="amount">{{ cart.total_price | money }}</span>
+            {% assign free_ship = settings.free_shipping_threshold | plus: 0.00 | times: 100 %}
+            <span class="shipping">
+              {% if cart.total_price >= free_ship %}
+                <p>You have qualified for free shipping</p>
+              {% else %}
+                <p>You are {{ free_ship | minus: cart.total_price | money }} away from free shipping</p>
+              {% endif %}
+              <p>Taxes &amp; discounts will be calculated at checkout.</p>
+            </span>
+          </div>
+
+          <div class="cart_buttons">
+            <a href="/collections/shop-all" class="btn-form continue"><span>Continue Shopping</span></a>
+            <button type="submit" name="checkout" class="checkout btn-form">Checkout</button>
+          </div>
+
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+
+</form>
+</div>

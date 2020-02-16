@@ -1,0 +1,17 @@
+{% if search.performed %}
+  {% if search.results == empty %}
+    <div>
+      <div>
+        <p>Your search for <i>"{{ search.terms }}"</i> did not yield any results. Try searching for something else.</p>
+      </div>
+    </div>
+  {% else %}
+    <h1 class="search-title">{{ search.terms }}</h1>
+
+    <div>
+      {% for item in search.results %}
+        {% include 'thumb_product', product: item, classes: 'search_thumb_product' %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endif %}

@@ -1,0 +1,145 @@
+<!-- Klaviyo -->
+<script type="text/javascript">
+  var _learnq = _learnq || [];
+
+  _learnq.push(['account', 'wHpuwL']);
+
+  <!-- Camapign Tracking -->
+  _learnq.push(['identify', {
+    {% if customer %}'$email' : '{{ customer.email }}'{% endif %}
+  }]);
+  <!-- End Campaign Tracking -->
+
+  (function () {
+    var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true;
+    b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'a.klaviyo.com/media/js/analytics/analytics.js';
+    var a = document.getElementsByTagName('script')[0]; a.parentNode.insertBefore(b, a);
+    })();
+</script>
+<!-- End Klaviyo -->
+
+{% if template contains 'product' %}
+  {% include 'sca_freegift_price' with product %}
+  <!-- Klaviyo -->
+  <script text="text/javascript">
+    var _learnq = _learnq || [];
+
+    var item = {
+      Name: {{ product.title|json }},
+      ProductID: {{ product.id|json }},
+      Categories: {{ product.collections|map:'title'|json }},
+      ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+      URL: "{{ shop.secure_url }}{{ product.url }}",
+      Brand: {{ product.vendor|json }},
+      Price: {{ sca_price|money|json }},
+      CompareAtPrice: {{ sca_compare_at_price_max|money|json }}
+    };
+
+    _learnq.push(['track', 'Viewed Product', item]);
+    _learnq.push(['trackViewedItem', {
+      Title: item.Name,
+      ItemId: item.ProductID,
+      Categories: item.Categories,
+      ImageUrl: item.ImageURL,
+      Url: item.URL,
+      Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+    }]);
+  </script>
+  <!-- End Klaviyo -->
+{% endif %}
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-T352Q9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T352Q9');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Code for Remarketing Tag -->
+<script type="text/javascript">
+  {% assign shopify_store_country  = 'US' %}
+  {% if shop.currency == 'CAD' %}
+    {% assign shopify_store_country  = 'CA' %}
+  {% endif %}
+
+  {% if template contains 'cart' %}
+    window.google_tag_params = {
+  		ecomm_prodid: [{% for item in cart.items %}'shopify_{{ shopify_store_country  }}_{{ item.product.id }}_{{ item.variant.id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  		ecomm_pagetype: 'cart',
+  		ecomm_totalvalue: {{ cart.total_price | money_without_currency }}
+    };
+  {% elsif template contains 'collection' %}
+    window.google_tag_params = {
+      ecomm_prodid: [{% for item in collection.products limit: 5 %}'shopify_{{ shopify_store_country  }}_{{ item.id }}_{{ item.variants.first.id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}],
+      ecomm_pagetype: 'category',
+      ecomm_category: '{{ collection.handle }}'
+    };
+  {% elsif template contains 'index' %}
+    window.google_tag_params = {
+      ecomm_pagetype: 'home'
+    };
+  {% elsif template contains 'product' %}
+    window.google_tag_params = {
+      ecomm_prodid: 'shopify_{{ shopify_store_country  }}_{{ product.id }}_{{ product.selected_or_first_available_variant.id }}',
+      ecomm_pagetype: 'product',
+      ecomm_totalvalue: {{ sca_price | money_without_currency }}
+    };
+  {% elsif template contains 'search' %}
+    window.google_tag_params = {
+      ecomm_prodid: [{% for item in search.results limit: 5 %}'shopify_{{ shopify_store_country  }}_{{ item.id }}_{{ item.variants.first.id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}],
+      ecomm_pagetype: 'searchresults'
+    };
+  {% else %}
+    window.google_tag_params = {
+      ecomm_pagetype: 'other'
+    };
+  {% endif %}
+
+  /* <![CDATA[ */
+  var google_conversion_id = 1033266983;
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  /* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+<noscript>
+  <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1033266983/?value=0&amp;guid=ON&amp;script=0"/>
+  </div>
+</noscript>
+
+<script>
+  var FREE_SHIPPING_THRESHOLD = {{ settings.free_shipping_threshold | default: '0.00' }};
+  window.ShopifyThemeSettings = {
+    slickIconArrow: '{{ "icon_arrow_product.svg" | asset_url }}',
+  };
+</script>
+
+{{ 'jquery.js' | asset_url | script_tag }}
+{{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+{{ '//www.klaviyo.com/media/js/public/klaviyo_subscribe.js' | script_tag }}
+{% if template contains 'customers' %}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+{% endif %}
+{% if template contains 'product' %}
+  {{ 'option_selection_custom.js' | asset_url | script_tag }}
+{% endif %}
+{{ 'scripts.js' | asset_url | script_tag }}
+{{ 'fastclick.js' | asset_url | script_tag }}
+{{ 'jquery.zoom.min.js' | asset_url | script_tag }}
+<script>
+  if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+      FastClick.attach(document.body);
+    }, false);
+  }
+</script>

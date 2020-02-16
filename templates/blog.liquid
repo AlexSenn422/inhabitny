@@ -1,0 +1,41 @@
+<style>
+.pagination {
+  width:25px;
+  height:25px;
+  padding-bottom:0;
+}
+  
+.next {
+	transform: rotate(180deg);
+}
+</style>
+
+{% paginate blog.articles by 5 %}
+
+<section class="blog-container clearfix">
+	<div class="articles">
+		{% if blog.articles.size > 0 %}
+			{% for article in blog.articles %}
+        {% include 'thumb_article' %}
+			{% endfor %}
+		{% else %}
+			<h1>There are currently no blog posts!</h1>
+		{% endif %}
+
+		{% if paginate.pages > 1 %}
+			<div class="paginate">
+				{% if paginate.current_page != 1 %}
+					<a href="{{ paginate.previous.url }}" class="icon pagination next"><img src="{{ 'icon_arrow.svg' | asset_url }}"></a>
+				{% endif %}
+				<p><strong>{{ paginate.current_page}}</strong> / {{ paginate.pages }}</p>
+				{% if paginate.current_page != paginate.pages %}
+					<a href="{{ paginate.next.url }}" class="icon pagination previous"><img src="{{ 'icon_arrow.svg' | asset_url }}"></a>
+				{% endif %}
+			</div>
+		{% endif %}
+	</div>
+
+  {% include 'blog_sidebar' %}
+</section>
+
+{% endpaginate %}

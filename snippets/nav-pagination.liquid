@@ -1,0 +1,34 @@
+{% if paginate.pages > 1 %}
+  <div class="list pagination small-12 medium-6 columns left">
+    
+    <div class="table">
+    
+      <span class="numbers">
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            {{ part.title | link_to: part.url }}
+          {% else %}
+            {% if part.title == paginate.current_page %}
+              <a href="#" class="active">{{ part.title }}</a>
+            {% else %}
+              {{ part.title }}
+            {% endif %}
+          {% endif %}
+        {% else %}
+          1
+        {% endfor %}
+      </span>
+
+      <span class="buttons">
+        {% if paginate.previous.is_link %}
+          <a href="{{ paginate.previous.url }}" class="icon pagination previous">&nbsp;</a>
+        {% endif %}
+        {% if paginate.next.is_link %}
+          <a href="{{ paginate.next.url }}" class="icon pagination next">&nbsp;</a>
+        {% endif %}
+      </span>
+
+    </div>
+    
+  </div>
+{% endif %}

@@ -1,0 +1,86 @@
+<div class="slide block block_1 fade_in_ani">
+  <a href="{{ settings.row_1_link }}"></a>
+  <div class="block_content right">
+    <div class="title">{{ settings.row_1_text_line_1 }}</div>
+    <div class="subtitle">{{ settings.row_1_text_line_2 }}</div>
+    {% if settings.row_1_call_to_action %}
+      <div class="goto">
+        <span class="link">
+          <span>
+            <span>{{ settings.row_1_call_to_action }}</span>
+            <span class="index_caret">
+              <svg version="1.1" id="ICONS" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                   viewBox="0 0 19.4 58.9" style="enable-background:new 0 0 19.4 58.9;" xml:space="preserve">
+                <path class="change" d="M19.1,28.2L5.7,1.6c-0.7-1.5-2.6-2.1-4-1.3c-0.7,0.4-1.2,1-1.5,1.7C-0.1,2.8,0,3.6,0.3,4.4l12.8,25.2l-12.7,25
+                                        C0,55.2,0,56,0.2,56.8s0.8,1.4,1.5,1.7c0.4,0.2,0.9,0.3,1.4,0.3c1.1,0,2.2-0.6,2.7-1.6l13.4-26.3C19.6,30,19.6,29,19.1,28.2z"/>
+              </svg>
+            </span>
+          </span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="block block_2 {% if settings.home_animate %}fade_in_ani{% endif %}">
+  <a href="{{ settings.row_2_link }}"></a>
+  <div class="block_content left">
+    <div class="title">{{ settings.row_2_header }}</div>
+    {% if settings.row_2_sub_text %}<div class="subtitle">{{ settings.row_2_sub_text }}</div>{% endif %}
+    {% if settings.row_2_call_to_action %}
+      <div class="goto alt-line">
+        <span class="link">
+          <span>
+            <span>{{ settings.row_2_call_to_action }}</span>
+            <span class="index_caret">
+              <svg version="1.1" id="ICONS" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                   viewBox="0 0 19.4 58.9" style="enable-background:new 0 0 19.4 58.9;" xml:space="preserve">
+                <path class="change" d="M19.1,28.2L5.7,1.6c-0.7-1.5-2.6-2.1-4-1.3c-0.7,0.4-1.2,1-1.5,1.7C-0.1,2.8,0,3.6,0.3,4.4l12.8,25.2l-12.7,25
+                                     C0,55.2,0,56,0.2,56.8s0.8,1.4,1.5,1.7c0.4,0.2,0.9,0.3,1.4,0.3c1.1,0,2.2-0.6,2.7-1.6l13.4-26.3C19.6,30,19.6,29,19.1,28.2z"/>
+              </svg>
+            </span>
+          </span>
+        </span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="content_block_wrapper {% if settings.home_animate %}fade_in_ani{% endif %}">
+  <div class="content_block">
+    <div class="title">{{ settings.row_3_left_header }}</div>
+    {% if settings.row_3_left_text %}<p>{{ settings.row_3_left_text }}</p>{% endif %}
+    <a href="{{ settings.row_3_left_link }}" class="link">{{ settings.row_3_left_call_to_action }}</a>
+  </div>
+  <div class="content_block">
+    <div class="title">{{ settings.row_3_right_header }}</div>
+    {% if settings.row_3_right_text %}<p>{{ settings.row_3_right_text }}</p>{% endif %}
+    <a href="{{ settings.row_3_right_link }}" class="link">{{ settings.row_3_right_call_to_action }}</a>
+  </div>
+</div>
+
+<div class="block block_3 {% if settings.home_animate %}fade_in_ani{% endif %}">
+  <a href="{{ settings.row_4_link }}"></a>
+  <div class="block_content right">
+    <div class="title">{{ settings.row_4_header_text }}</div>
+    {% if settings.row_4_sub_text %}<div class="subtitle">{{ settings.row_4_sub_text }}</div>{% endif %}
+    {% if settings.row_4_call_to_action %}
+      <div class="goto alt-line">
+        <span class="link">
+          <span>
+            <span>{{ settings.row_4_call_to_action }}</span>
+            <span class="index_caret">
+              <svg version="1.1" id="ICONS" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                   viewBox="0 0 19.4 58.9" style="enable-background:new 0 0 19.4 58.9;" xml:space="preserve">
+                <path class="change" d="M19.1,28.2L5.7,1.6c-0.7-1.5-2.6-2.1-4-1.3c-0.7,0.4-1.2,1-1.5,1.7C-0.1,2.8,0,3.6,0.3,4.4l12.8,25.2l-12.7,25
+                                        C0,55.2,0,56,0.2,56.8s0.8,1.4,1.5,1.7c0.4,0.2,0.9,0.3,1.4,0.3c1.1,0,2.2-0.6,2.7-1.6l13.4-26.3C19.6,30,19.6,29,19.1,28.2z"/>
+              </svg>
+            </span>
+          </span>
+        </span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% section 'homepage-product-promo' %}
+<hr class="section-divider" />
+{% section 'homepage-instagram-feed' %}
